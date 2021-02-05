@@ -22,12 +22,18 @@ public class EventDay {
     private Object mDrawable;
     private int mLabelColor;
     private boolean mIsDisabled;
+    private String mDescription;
 
     /**
      * @param day Calendar object which represents a date of the event
      */
     public EventDay(Calendar day) {
         mDay = day;
+    }
+
+    public EventDay(Calendar day, String description){
+        mDay = day;
+        mDescription = description;
     }
 
     /**
@@ -111,5 +117,9 @@ public class EventDay {
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     public void setEnabled(boolean enabled) {
         mIsDisabled = enabled;
+    }
+
+    public String getDescription() {
+        return mDescription;
     }
 }

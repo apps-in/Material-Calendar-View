@@ -58,9 +58,14 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
 
         TextView dayLabel = (TextView) view.findViewById(R.id.dayLabel);
         ImageView dayIcon = (ImageView) view.findViewById(R.id.dayIcon);
+        TextView dayDescription = (TextView) view.findViewById(R.id.dayDescription);
 
         Calendar day = new GregorianCalendar();
         day.setTime(getItem(position));
+
+        if (dayDescription != null){
+            setDescription(dayLabel, dayDescription, day);
+        }
 
         // Loading an image of the event
         if (dayIcon != null) {
@@ -125,6 +130,25 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
 
     private boolean isActiveDay(Calendar day) {
         return !mCalendarProperties.getDisabledDays().contains(day);
+    }
+
+    private void setDescription(TextView dayLabel, TextView dayDescription, Calendar day){
+        if (mCalendarProperties.getEventDays() == null || !mCalendarProperties.getEventsEnabled()) {
+            dayDescription.setVisibility(View.GONE);
+            return;
+        }
+
+        Stream.of(mCalendarProperties.getEventDays()).filter(eventDate ->
+                eventDate.getCalendar().equals(day)).findFirst().executeIfPresent(eventDay -> {
+            dayLabel.setTypeface(Typeface.DEFAULT_BOLD);
+            dayDescription.setText(eventDay.getDescription());
+
+            // If a day doesn't belong to current month then image is transparent
+            if (!isCurrentMonthDay(day) || !isActiveDay(day)) {
+                dayDescription.setAlpha(0.12f);
+            }
+
+        });
     }
 
     private void loadIcon(ImageView dayIcon, Calendar day) {
