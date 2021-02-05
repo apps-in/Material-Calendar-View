@@ -9,19 +9,32 @@
         android:id="@+id/dayLabel"
         android:layout_width="@dimen/day_label_size_events_enabled"
         android:layout_height="@dimen/day_label_size_events_enabled"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="4dp"
         android:gravity="center"
-        android:layout_gravity="center_horizontal"
         android:textSize="14sp" />
 
-    <ImageView
-        android:id="@+id/dayIcon"
+    <FrameLayout
         android:layout_width="30dp"
         android:layout_height="20dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
-        android:scaleType="centerInside" />
+        android:layout_marginBottom="2dp">
+
+        <ImageView
+            android:id="@+id/dayIcon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside" />
+
+        <TextView
+            android:id="@+id/dayDescription"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="12sp" />
+
+    </FrameLayout>
 
     <View
         android:id="@+id/divider"

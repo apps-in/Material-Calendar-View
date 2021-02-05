@@ -28,11 +28,17 @@ data class EventDay(val calendar: Calendar) {
 
     internal var labelColor: Int = 0
 
+    internal var descriptionText : String? = null;
+
     @set:RestrictTo(RestrictTo.Scope.LIBRARY)
     var isEnabled: Boolean = false
 
     init {
         calendar.setMidnight()
+    }
+
+    constructor(day: Calendar, descriptionText : String) : this(day){
+        this.descriptionText = descriptionText;
     }
 
     constructor(day: Calendar, drawable: Drawable) : this(day) {

@@ -2,6 +2,7 @@ package com.applandeo.materialcalendarview.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,10 +43,20 @@ class CalendarDayAdapter(
         dayView.dayIcon?.loadIcon(day)
 
         val dayLabel = dayView.dayLabel ?: throw InvalidCustomLayoutException
+        val dayDescription = dayView.dayDescription ?: throw InvalidCustomLayoutException
 
         setLabelColors(dayLabel, day)
         dayLabel.typeface = calendarProperties.typeface
         dayLabel.text = day[Calendar.DAY_OF_MONTH].toString()
+        dayDescription.typeface = calendarProperties.typeface
+
+        calendarProperties.eventDays.firstOrNull { it.calendar == day }?.let { eventDay ->
+            val description = eventDay.descriptionText;
+            if (description != null) {
+                dayDescription.text = description;
+                dayLabel.typeface = Typeface.DEFAULT_BOLD
+            }
+        }
 
         return dayView
     }
