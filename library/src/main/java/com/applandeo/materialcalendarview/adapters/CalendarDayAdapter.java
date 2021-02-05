@@ -138,8 +138,10 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
             return;
         }
 
-        Stream.of(mCalendarProperties.getEventDays()).filter(eventDate ->
-                eventDate.getCalendar().equals(day)).findFirst().executeIfPresent(eventDay -> {
+        Stream.of(mCalendarProperties.getEventDays()).filter(eventDate -> {
+            Calendar eventDateCalendar = eventDate.getCalendar();
+            return eventDateCalendar.get(Calendar.YEAR) == day.get(Calendar.YEAR) && eventDateCalendar.get(Calendar.MONTH) == day.get(Calendar.MONTH) && eventDateCalendar.get(Calendar.DAY_OF_MONTH) == day.get(Calendar.DAY_OF_MONTH);
+        }).findFirst().executeIfPresent(eventDay -> {
             dayLabel.setTypeface(Typeface.DEFAULT_BOLD);
             dayDescription.setText(eventDay.getDescription());
 
@@ -157,8 +159,10 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
             return;
         }
 
-        Stream.of(mCalendarProperties.getEventDays()).filter(eventDate ->
-                eventDate.getCalendar().equals(day)).findFirst().executeIfPresent(eventDay -> {
+        Stream.of(mCalendarProperties.getEventDays()).filter(eventDate -> {
+            Calendar eventDateCalendar = eventDate.getCalendar();
+            return eventDateCalendar.get(Calendar.YEAR) == day.get(Calendar.YEAR) && eventDateCalendar.get(Calendar.MONTH) == day.get(Calendar.MONTH) && eventDateCalendar.get(Calendar.DAY_OF_MONTH) == day.get(Calendar.DAY_OF_MONTH);
+        }).findFirst().executeIfPresent(eventDay -> {
 
             ImageUtils.loadImage(dayIcon, eventDay.getImageDrawable());
 
