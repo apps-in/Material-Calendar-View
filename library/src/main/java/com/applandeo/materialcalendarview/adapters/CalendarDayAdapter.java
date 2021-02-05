@@ -63,6 +63,8 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
         Calendar day = new GregorianCalendar();
         day.setTime(getItem(position));
 
+        setLabelColors(dayLabel, day);
+
         if (dayDescription != null){
             setDescription(dayLabel, dayDescription, day);
         }
@@ -71,8 +73,6 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
         if (dayIcon != null) {
             loadIcon(dayIcon, day);
         }
-
-        setLabelColors(dayLabel, day);
 
         dayLabel.setText(String.valueOf(day.get(Calendar.DAY_OF_MONTH)));
         return view;
