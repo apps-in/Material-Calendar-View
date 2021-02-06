@@ -65,10 +65,12 @@ public class DayColorsUtils {
     public static void setCurrentMonthDayColors(Calendar day, Calendar today, TextView dayLabel, TextView dayDescription,
                                                 CalendarProperties calendarProperties) {
         setDayBackgroundColor(dayLabel, Color.TRANSPARENT);
-        if (today.equals(day)) {
-            setTodayColors(dayLabel, dayDescription, calendarProperties);
-        } else if (EventDayUtils.isEventDayWithLabelColor(day, calendarProperties)) {
+        ((ViewGroup) dayLabel.getParent()).findViewById(R.id.cornerView).setBackgroundColor(Color.TRANSPARENT);
+        if (EventDayUtils.isEventDayWithLabelColor(day, calendarProperties)) {
             setEventDayColors(day, dayLabel, dayDescription, calendarProperties);
+            ((ViewGroup) dayLabel.getParent()).findViewById(R.id.cornerView).setBackgroundColor(dayLabel.getContext().getResources().getColor(R.color.nextMonthDayColor));
+        } else if (today.equals(day)) {
+            setTodayColors(dayLabel, dayDescription, calendarProperties);
         } else if (calendarProperties.getHighlightedDays().contains(day)) {
             setHighlightedDayColors(dayLabel, dayDescription, calendarProperties);
         } else {
@@ -109,6 +111,6 @@ public class DayColorsUtils {
     }
 
     private static void setDayBackgroundColor(TextView dayLabel, int color) {
-        ((ViewGroup) dayLabel.getParent().getParent()).setBackgroundColor(color);
+        ((ViewGroup) dayLabel.getParent().getParent().getParent()).setBackgroundColor(color);
     }
 }
