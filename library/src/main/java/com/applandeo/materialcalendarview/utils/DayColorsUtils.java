@@ -103,6 +103,6 @@ public class DayColorsUtils {
     }
 
     private static void setDayBackgroundColor(TextView dayLabel, int color) {
-        ((ViewGroup) dayLabel.getParent().getParent()).getBackground().setColorFilter(color, android.graphics.PorterDuff.Mode.MULTIPLY);
+        ((ViewGroup) dayLabel.getParent().getParent()).setBackgroundColor(color);
     }
 }
