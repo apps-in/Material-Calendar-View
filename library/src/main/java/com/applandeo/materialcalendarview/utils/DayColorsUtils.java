@@ -62,45 +62,49 @@ public class DayColorsUtils {
      * @param dayLabel           TextView containing a day numberx
      * @param calendarProperties A resource of a color used to mark today day
      */
-    public static void setCurrentMonthDayColors(Calendar day, Calendar today, TextView dayLabel,
+    public static void setCurrentMonthDayColors(Calendar day, Calendar today, TextView dayLabel, TextView dayDescription,
                                                 CalendarProperties calendarProperties) {
         setDayBackgroundColor(dayLabel, Color.TRANSPARENT);
         if (today.equals(day)) {
-            setTodayColors(dayLabel, calendarProperties);
+            setTodayColors(dayLabel, dayDescription, calendarProperties);
         } else if (EventDayUtils.isEventDayWithLabelColor(day, calendarProperties)) {
-            setEventDayColors(day, dayLabel, calendarProperties);
+            setEventDayColors(day, dayLabel, dayDescription, calendarProperties);
         } else if (calendarProperties.getHighlightedDays().contains(day)) {
-            setHighlightedDayColors(dayLabel, calendarProperties);
+            setHighlightedDayColors(dayLabel, dayDescription, calendarProperties);
         } else {
-            setNormalDayColors(dayLabel, calendarProperties);
+            setNormalDayColors(dayLabel, dayDescription, calendarProperties);
         }
     }
 
-    private static void setTodayColors(TextView dayLabel, CalendarProperties calendarProperties) {
+    private static void setTodayColors(TextView dayLabel, TextView dayDescription, CalendarProperties calendarProperties) {
         setDayColors(dayLabel, calendarProperties.getTodayLabelColor(), Typeface.BOLD,
                 R.drawable.background_transparent);
+        setDayColors(dayDescription, calendarProperties.getTodayLabelColor(), Typeface.ITALIC,
+                R.drawable.background_transparent);
 
-        // Sets custom background color for present
-        if (calendarProperties.getTodayColor() != 0) {
-            setDayColors(dayLabel, calendarProperties.getSelectionLabelColor(), Typeface.BOLD,
-                    R.drawable.background_color_circle_selector);
-            setDayBackgroundColor(dayLabel, calendarProperties.getTodayColor());
-        }
     }
 
-    private static void setEventDayColors(Calendar day, TextView dayLabel, CalendarProperties calendarProperties) {
-        EventDayUtils.getEventDayWithLabelColor(day, calendarProperties).executeIfPresent(eventDay ->
+    private static void setEventDayColors(Calendar day, TextView dayLabel, TextView dayDescription, CalendarProperties calendarProperties) {
+        EventDayUtils.getEventDayWithLabelColor(day, calendarProperties).executeIfPresent(eventDay -> {
                 DayColorsUtils.setDayColors(dayLabel, eventDay.getLabelColor(),
-                        Typeface.BOLD, R.drawable.background_transparent));
+                        Typeface.BOLD, R.drawable.background_transparent);
+            DayColorsUtils.setDayColors(dayDescription, eventDay.getLabelColor(),
+                    Typeface.ITALIC, R.drawable.background_transparent);
+        });
+
     }
 
-    private static void setHighlightedDayColors(TextView dayLabel, CalendarProperties calendarProperties) {
+    private static void setHighlightedDayColors(TextView dayLabel, TextView dayDescription, CalendarProperties calendarProperties) {
         setDayColors(dayLabel, calendarProperties.getHighlightedDaysLabelsColor(),
                 Typeface.NORMAL, R.drawable.background_transparent);
+        setDayColors(dayDescription, calendarProperties.getHighlightedDaysLabelsColor(),
+                Typeface.ITALIC, R.drawable.background_transparent);
     }
 
-    private static void setNormalDayColors(TextView dayLabel, CalendarProperties calendarProperties) {
+    private static void setNormalDayColors(TextView dayLabel, TextView dayDescription, CalendarProperties calendarProperties) {
         setDayColors(dayLabel, calendarProperties.getDaysLabelsColor(), Typeface.NORMAL,
+                R.drawable.background_transparent);
+        setDayColors(dayDescription, calendarProperties.getDaysLabelsColor(), Typeface.ITALIC,
                 R.drawable.background_transparent);
     }
 

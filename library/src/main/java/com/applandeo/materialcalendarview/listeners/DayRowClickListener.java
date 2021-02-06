@@ -66,7 +66,7 @@ public class DayRowClickListener implements AdapterView.OnItemClickListener {
                 break;
 
             case CalendarView.CLASSIC:
-                mCalendarPageAdapter.setSelectedDay(new SelectedDay(view, day));
+                mCalendarPageAdapter.setSelectedDay(new SelectedDay(view, null, day));
         }
     }
 
@@ -87,7 +87,7 @@ public class DayRowClickListener implements AdapterView.OnItemClickListener {
         TextView dayDescription = (TextView) view.findViewById(R.id.dayDescription);
 
         if (isCurrentMonthDay(day) && isActiveDay(day)) {
-            SelectedDay selectedDay = new SelectedDay(dayLabel, day);
+            SelectedDay selectedDay = new SelectedDay(dayLabel, dayDescription, day);
 
             if (!mCalendarPageAdapter.getSelectedDays().contains(selectedDay)) {
                 DayColorsUtils.setSelectedDayColors(dayLabel, dayDescription, mCalendarProperties);
@@ -140,18 +140,18 @@ public class DayRowClickListener implements AdapterView.OnItemClickListener {
 
         DayColorsUtils.setSelectedDayColors(dayLabel, dayDescription,  mCalendarProperties);
 
-        mCalendarPageAdapter.addSelectedDay(new SelectedDay(dayLabel, day));
+        mCalendarPageAdapter.addSelectedDay(new SelectedDay(dayLabel, dayDescription, day));
         mCalendarPageAdapter.notifyDataSetChanged();
     }
 
     private void selectDay(TextView dayLabel, TextView dayDescription, Calendar day) {
         DayColorsUtils.setSelectedDayColors(dayLabel, dayDescription, mCalendarProperties);
-        mCalendarPageAdapter.setSelectedDay(new SelectedDay(dayLabel, day));
+        mCalendarPageAdapter.setSelectedDay(new SelectedDay(dayLabel, dayDescription, day));
     }
 
     private void reverseUnselectedColor(SelectedDay selectedDay) {
         DayColorsUtils.setCurrentMonthDayColors(selectedDay.getCalendar(),
-                DateUtils.getCalendar(), (TextView) selectedDay.getView(), mCalendarProperties);
+                DateUtils.getCalendar(), (TextView) selectedDay.getLabelView(), (TextView) selectedDay.getDescriptionView(), mCalendarProperties);
     }
 
     private boolean isCurrentMonthDay(Calendar day) {

@@ -1,12 +1,12 @@
 package com.applandeo.materialcalendarview.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.annimon.stream.Stream;
@@ -16,7 +16,6 @@ import com.applandeo.materialcalendarview.utils.CalendarProperties;
 import com.applandeo.materialcalendarview.utils.DateUtils;
 import com.applandeo.materialcalendarview.utils.DayColorsUtils;
 import com.applandeo.materialcalendarview.utils.EventDayUtils;
-import com.applandeo.materialcalendarview.utils.ImageUtils;
 import com.applandeo.materialcalendarview.utils.SelectedDay;
 
 import java.util.ArrayList;
@@ -77,6 +76,8 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
         if (!isCurrentMonthDay(day)) {
             DayColorsUtils.setDayColors(dayLabel, mCalendarProperties.getAnotherMonthsDaysLabelsColor(),
                     Typeface.NORMAL, R.drawable.background_transparent);
+            DayColorsUtils.setDayColors(dayLabel, Color.TRANSPARENT,
+                    Typeface.ITALIC, R.drawable.background_transparent);
             return;
         }
 
@@ -84,7 +85,7 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
         if (isSelectedDay(day)) {
             Stream.of(mCalendarPageAdapter.getSelectedDays())
                     .filter(selectedDay -> selectedDay.getCalendar().equals(day))
-                    .findFirst().ifPresent(selectedDay -> selectedDay.setView(dayLabel));
+                    .findFirst().ifPresent(selectedDay -> selectedDay.setLabelView(dayLabel));
 
             DayColorsUtils.setSelectedDayColors(dayLabel, dayDescription, mCalendarProperties);
             return;
@@ -94,17 +95,19 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
         if (!isActiveDay(day)) {
             DayColorsUtils.setDayColors(dayLabel, mCalendarProperties.getDisabledDaysLabelsColor(),
                     Typeface.NORMAL, R.drawable.background_transparent);
+            DayColorsUtils.setDayColors(dayLabel, Color.TRANSPARENT,
+                    Typeface.ITALIC, R.drawable.background_transparent);
             return;
         }
 
         // Setting custom label color for event day
         if (isEventDayWithLabelColor(day)) {
-            DayColorsUtils.setCurrentMonthDayColors(day, mToday, dayLabel, mCalendarProperties);
+            DayColorsUtils.setCurrentMonthDayColors(day, mToday, dayLabel, dayDescription, mCalendarProperties);
             return;
         }
 
         // Setting current month day color
-        DayColorsUtils.setCurrentMonthDayColors(day, mToday, dayLabel, mCalendarProperties);
+        DayColorsUtils.setCurrentMonthDayColors(day, mToday, dayLabel, dayDescription, mCalendarProperties);
     }
 
     private boolean isSelectedDay(Calendar day) {
