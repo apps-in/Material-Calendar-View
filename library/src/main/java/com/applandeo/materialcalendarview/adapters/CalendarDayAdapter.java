@@ -76,7 +76,7 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
         if (!isCurrentMonthDay(day)) {
             DayColorsUtils.setDayColors(dayLabel, mCalendarProperties.getAnotherMonthsDaysLabelsColor(),
                     Typeface.NORMAL, R.drawable.background_transparent);
-            DayColorsUtils.setDayColors(dayLabel, Color.TRANSPARENT,
+            DayColorsUtils.setDayColors(dayDescription, Color.TRANSPARENT,
                     Typeface.ITALIC, R.drawable.background_transparent);
             return;
         }
