@@ -137,6 +137,7 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
             return eventDateCalendar.get(Calendar.YEAR) == day.get(Calendar.YEAR) && eventDateCalendar.get(Calendar.MONTH) == day.get(Calendar.MONTH) && eventDateCalendar.get(Calendar.DAY_OF_MONTH) == day.get(Calendar.DAY_OF_MONTH);
         }).findFirst().executeIfPresent(eventDay -> {
             dayDescription.setText(eventDay.getDescription());
+            dayDescription.setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC), Typeface.ITALIC);
             dayDescription.setTextColor(eventDay.getLabelColor());
 
             // If a day doesn't belong to current month then image is transparent
