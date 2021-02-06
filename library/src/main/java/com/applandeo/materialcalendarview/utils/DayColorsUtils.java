@@ -1,6 +1,7 @@
 package com.applandeo.materialcalendarview.utils;
 
 import android.graphics.Typeface;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.applandeo.materialcalendarview.R;
@@ -42,9 +43,9 @@ public class DayColorsUtils {
      * @param dayLabel           TextView containing a day number
      * @param calendarProperties A resource of a selection background color
      */
-    public static void setSelectedDayColors(TextView dayLabel, CalendarProperties calendarProperties) {
-        setDayColors(dayLabel, calendarProperties.getSelectionLabelColor(), Typeface.NORMAL,
-                R.drawable.background_color_circle_selector);
+    public static void setSelectedDayColors(TextView dayLabel, TextView dayDescription, CalendarProperties calendarProperties) {
+        dayLabel.setTextColor(calendarProperties.getSelectionLabelColor());
+        dayDescription.setTextColor(calendarProperties.getSelectionLabelColor());
 
         setDayBackgroundColor(dayLabel, calendarProperties.getSelectionColor());
     }
@@ -102,6 +103,6 @@ public class DayColorsUtils {
     }
 
     private static void setDayBackgroundColor(TextView dayLabel, int color) {
-        dayLabel.getBackground().setColorFilter(color, android.graphics.PorterDuff.Mode.MULTIPLY);
+        ((ViewGroup) dayLabel.getParent().getParent()).getBackground().setColorFilter(color, android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 }

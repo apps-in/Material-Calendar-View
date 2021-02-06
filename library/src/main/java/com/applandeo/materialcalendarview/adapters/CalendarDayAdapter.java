@@ -62,7 +62,7 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
         Calendar day = new GregorianCalendar();
         day.setTime(getItem(position));
 
-        setLabelColors(dayLabel, day);
+        setLabelColors(dayLabel, dayDescription, day);
 
         if (dayDescription != null){
             setDescription(dayDescription, day);
@@ -72,7 +72,7 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
         return view;
     }
 
-    private void setLabelColors(TextView dayLabel, Calendar day) {
+    private void setLabelColors(TextView dayLabel, TextView dayDescription, Calendar day) {
         // Setting not current month day color
         if (!isCurrentMonthDay(day)) {
             DayColorsUtils.setDayColors(dayLabel, mCalendarProperties.getAnotherMonthsDaysLabelsColor(),
@@ -86,7 +86,7 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
                     .filter(selectedDay -> selectedDay.getCalendar().equals(day))
                     .findFirst().ifPresent(selectedDay -> selectedDay.setView(dayLabel));
 
-            DayColorsUtils.setSelectedDayColors(dayLabel, mCalendarProperties);
+            DayColorsUtils.setSelectedDayColors(dayLabel, dayDescription, mCalendarProperties);
             return;
         }
 
