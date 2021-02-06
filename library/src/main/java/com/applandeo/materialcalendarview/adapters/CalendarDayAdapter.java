@@ -57,7 +57,6 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
         }
 
         TextView dayLabel = (TextView) view.findViewById(R.id.dayLabel);
-        ImageView dayIcon = (ImageView) view.findViewById(R.id.dayIcon);
         TextView dayDescription = (TextView) view.findViewById(R.id.dayDescription);
 
         Calendar day = new GregorianCalendar();
@@ -66,12 +65,7 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
         setLabelColors(dayLabel, day);
 
         if (dayDescription != null){
-            setDescription(dayLabel, dayDescription, day);
-        }
-
-        // Loading an image of the event
-        if (dayIcon != null) {
-            loadIcon(dayIcon, day);
+            setDescription(dayDescription, day);
         }
 
         dayLabel.setText(String.valueOf(day.get(Calendar.DAY_OF_MONTH)));
@@ -132,7 +126,7 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
         return !mCalendarProperties.getDisabledDays().contains(day);
     }
 
-    private void setDescription(TextView dayLabel, TextView dayDescription, Calendar day){
+    private void setDescription(TextView dayDescription, Calendar day){
         if (mCalendarProperties.getEventDays() == null || !mCalendarProperties.getEventsEnabled()) {
             dayDescription.setVisibility(View.GONE);
             return;
@@ -142,8 +136,8 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
             Calendar eventDateCalendar = eventDate.getCalendar();
             return eventDateCalendar.get(Calendar.YEAR) == day.get(Calendar.YEAR) && eventDateCalendar.get(Calendar.MONTH) == day.get(Calendar.MONTH) && eventDateCalendar.get(Calendar.DAY_OF_MONTH) == day.get(Calendar.DAY_OF_MONTH);
         }).findFirst().executeIfPresent(eventDay -> {
-            dayLabel.setTypeface(Typeface.DEFAULT_BOLD);
             dayDescription.setText(eventDay.getDescription());
+            dayDescription.setTextColor(eventDay.getLabelColor());
 
             // If a day doesn't belong to current month then image is transparent
             if (!isCurrentMonthDay(day) || !isActiveDay(day)) {
@@ -153,24 +147,4 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
         });
     }
 
-    private void loadIcon(ImageView dayIcon, Calendar day) {
-        if (mCalendarProperties.getEventDays() == null || !mCalendarProperties.getEventsEnabled()) {
-            dayIcon.setVisibility(View.GONE);
-            return;
-        }
-
-        Stream.of(mCalendarProperties.getEventDays()).filter(eventDate -> {
-            Calendar eventDateCalendar = eventDate.getCalendar();
-            return eventDateCalendar.get(Calendar.YEAR) == day.get(Calendar.YEAR) && eventDateCalendar.get(Calendar.MONTH) == day.get(Calendar.MONTH) && eventDateCalendar.get(Calendar.DAY_OF_MONTH) == day.get(Calendar.DAY_OF_MONTH);
-        }).findFirst().executeIfPresent(eventDay -> {
-
-            ImageUtils.loadImage(dayIcon, eventDay.getImageDrawable());
-
-            // If a day doesn't belong to current month then image is transparent
-            if (!isCurrentMonthDay(day) || !isActiveDay(day)) {
-                dayIcon.setAlpha(0.12f);
-            }
-
-        });
-    }
 }

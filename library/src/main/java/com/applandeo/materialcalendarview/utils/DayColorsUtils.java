@@ -79,7 +79,7 @@ public class DayColorsUtils {
 
         // Sets custom background color for present
         if (calendarProperties.getTodayColor() != 0) {
-            setDayColors(dayLabel, calendarProperties.getSelectionLabelColor(), Typeface.NORMAL,
+            setDayColors(dayLabel, calendarProperties.getSelectionLabelColor(), Typeface.BOLD,
                     R.drawable.background_color_circle_selector);
             setDayBackgroundColor(dayLabel, calendarProperties.getTodayColor());
         }
@@ -88,7 +88,7 @@ public class DayColorsUtils {
     private static void setEventDayColors(Calendar day, TextView dayLabel, CalendarProperties calendarProperties) {
         EventDayUtils.getEventDayWithLabelColor(day, calendarProperties).executeIfPresent(eventDay ->
                 DayColorsUtils.setDayColors(dayLabel, eventDay.getLabelColor(),
-                        Typeface.NORMAL, R.drawable.background_transparent));
+                        Typeface.BOLD, R.drawable.background_transparent));
     }
 
     private static void setHighlightedDayColors(TextView dayLabel, CalendarProperties calendarProperties) {

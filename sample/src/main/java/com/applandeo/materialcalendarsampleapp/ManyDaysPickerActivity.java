@@ -34,14 +34,6 @@ public class ManyDaysPickerActivity extends AppCompatActivity {
 
         calendarView.setSelectedDates(getSelectedDays());
 
-        List<EventDay> events = new ArrayList<>();
-
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DAY_OF_MONTH, 7);
-        events.add(new EventDay(cal, R.drawable.sample_four_icons));
-
-        calendarView.setEvents(events);
-
         Button getDateButton = (Button) findViewById(R.id.getDateButton);
         getDateButton.setOnClickListener(v -> {
             for (Calendar calendar : calendarView.getSelectedDates()) {

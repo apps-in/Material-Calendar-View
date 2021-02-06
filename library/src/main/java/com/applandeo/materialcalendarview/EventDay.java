@@ -19,7 +19,6 @@ import java.util.Calendar;
 
 public class EventDay {
     private Calendar mDay;
-    private Object mDrawable;
     private int mLabelColor;
     private boolean mIsDisabled;
     private String mDescription;
@@ -31,63 +30,10 @@ public class EventDay {
         mDay = day;
     }
 
-    public EventDay(Calendar day, String description){
+    public EventDay(Calendar day, String description, int labelColor){
         mDay = day;
         mDescription = description;
-    }
-
-    /**
-     * @param day      Calendar object which represents a date of the event
-     * @param drawable Drawable resource which will be displayed in a day cell
-     */
-    public EventDay(Calendar day, @DrawableRes int drawable) {
-        DateUtils.setMidnight(day);
-        mDay = day;
-        mDrawable = drawable;
-    }
-
-    /**
-     * @param day      Calendar object which represents a date of the event
-     * @param drawable Drawable which will be displayed in a day cell
-     */
-    public EventDay(Calendar day, Drawable drawable) {
-        DateUtils.setMidnight(day);
-        mDay = day;
-        mDrawable = drawable;
-    }
-
-    /**
-     * @param day        Calendar object which represents a date of the event
-     * @param drawable   Drawable resource which will be displayed in a day cell
-     * @param labelColor Color which will be displayed as label text color a day cell
-     */
-    public EventDay(Calendar day, @DrawableRes int drawable , int labelColor) {
-        DateUtils.setMidnight(day);
-        mDay = day;
-        mDrawable = drawable;
-        mLabelColor = labelColor;
-    }
-
-
-    /**
-     * @param day        Calendar object which represents a date of the event
-     * @param drawable   Drawable which will be displayed in a day cell
-     * @param labelColor Color which will be displayed as label text color a day cell
-     */
-    public EventDay(Calendar day, Drawable drawable , int labelColor) {
-        DateUtils.setMidnight(day);
-        mDay = day;
-        mDrawable = drawable;
-        mLabelColor = labelColor;
-    }
-
-
-    /**
-     * @return An image resource which will be displayed in the day row
-     */
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
-    public Object getImageDrawable() {
-        return mDrawable;
+        this.mLabelColor = labelColor;
     }
 
     /**
