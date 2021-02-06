@@ -15,8 +15,10 @@ public class EventDayUtils {
      */
     public static boolean isEventDayWithLabelColor(Calendar day, CalendarProperties calendarProperties) {
         if (calendarProperties.getEventDays() != null || calendarProperties.getEventsEnabled()) {
-            return Stream.of(calendarProperties.getEventDays()).anyMatch(eventDate ->
-                    eventDate.getCalendar().equals(day) && eventDate.getLabelColor() != 0);
+            return Stream.of(calendarProperties.getEventDays()).anyMatch(eventDate -> {
+                Calendar eventDateCalendar = eventDate.getCalendar();
+                return eventDateCalendar.get(Calendar.YEAR) == day.get(Calendar.YEAR) && eventDateCalendar.get(Calendar.MONTH) == day.get(Calendar.MONTH) && eventDateCalendar.get(Calendar.DAY_OF_MONTH) == day.get(Calendar.DAY_OF_MONTH) && eventDate.getLabelColor() != 0;
+            });
         }
 
         return false;
@@ -30,7 +32,10 @@ public class EventDayUtils {
      */
     public static Optional<EventDay> getEventDayWithLabelColor(Calendar day, CalendarProperties calendarProperties) {
         return Stream.of(calendarProperties.getEventDays())
-                .filter(eventDate -> eventDate.getCalendar().equals(day) && eventDate.getLabelColor() != 0)
+                .filter(eventDate -> {
+                    Calendar eventDateCalendar = eventDate.getCalendar();
+                    return eventDateCalendar.get(Calendar.YEAR) == day.get(Calendar.YEAR) && eventDateCalendar.get(Calendar.MONTH) == day.get(Calendar.MONTH) && eventDateCalendar.get(Calendar.DAY_OF_MONTH) == day.get(Calendar.DAY_OF_MONTH) && eventDate.getLabelColor() != 0;
+                })
                 .findFirst();
     }
 }
