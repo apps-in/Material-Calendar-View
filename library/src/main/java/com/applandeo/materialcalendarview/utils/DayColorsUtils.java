@@ -1,5 +1,6 @@
 package com.applandeo.materialcalendarview.utils;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -63,6 +64,7 @@ public class DayColorsUtils {
      */
     public static void setCurrentMonthDayColors(Calendar day, Calendar today, TextView dayLabel,
                                                 CalendarProperties calendarProperties) {
+        setDayBackgroundColor(dayLabel, Color.TRANSPARENT);
         if (today.equals(day)) {
             setTodayColors(dayLabel, calendarProperties);
         } else if (EventDayUtils.isEventDayWithLabelColor(day, calendarProperties)) {
