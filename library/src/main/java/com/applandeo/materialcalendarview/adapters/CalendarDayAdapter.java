@@ -78,6 +78,7 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
                     Typeface.NORMAL, R.drawable.background_transparent);
             DayColorsUtils.setDayColors(dayDescription, Color.TRANSPARENT,
                     Typeface.ITALIC, R.drawable.background_transparent);
+            ((ViewGroup) dayLabel.getParent()).findViewById(R.id.cornerView).setBackgroundColor(Color.TRANSPARENT);
             return;
         }
 

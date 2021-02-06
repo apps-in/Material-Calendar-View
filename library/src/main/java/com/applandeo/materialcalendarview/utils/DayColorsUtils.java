@@ -68,7 +68,7 @@ public class DayColorsUtils {
         ((ViewGroup) dayLabel.getParent()).findViewById(R.id.cornerView).setBackgroundColor(Color.TRANSPARENT);
         if (EventDayUtils.isEventDayWithLabelColor(day, calendarProperties)) {
             setEventDayColors(day, dayLabel, dayDescription, calendarProperties);
-            ((ViewGroup) dayLabel.getParent()).findViewById(R.id.cornerView).setBackgroundColor(dayLabel.getContext().getResources().getColor(R.color.nextMonthDayColor));
+            ((ViewGroup) dayLabel.getParent()).findViewById(R.id.cornerView).setBackgroundResource(R.drawable.background_event);
         } else if (today.equals(day)) {
             setTodayColors(dayLabel, dayDescription, calendarProperties);
         } else if (calendarProperties.getHighlightedDays().contains(day)) {
