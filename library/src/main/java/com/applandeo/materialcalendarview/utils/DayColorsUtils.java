@@ -53,7 +53,7 @@ public class DayColorsUtils {
 
     public static void setCurrentMonthDayColors(Calendar day, Calendar today, View view,
                                                 CalendarProperties calendarProperties) {
-        view.setBackgroundColor(calendarProperties.getSelectionColor());
+        view.setBackgroundColor(Color.TRANSPARENT);
         TextView dayLabel = view.findViewById(R.id.dayLabel);
         TextView dayDescription = view.findViewById(R.id.dayDescription);
         ((ViewGroup) dayLabel.getParent()).findViewById(R.id.cornerView).setBackgroundColor(Color.TRANSPARENT);
