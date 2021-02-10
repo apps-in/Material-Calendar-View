@@ -67,7 +67,7 @@ public class DayRowClickListener implements AdapterView.OnItemClickListener {
                 break;
 
             case CalendarView.CLASSIC:
-                mCalendarPageAdapter.setSelectedDay(new SelectedDay(view, null, day));
+                mCalendarPageAdapter.setSelectedDay(new SelectedDay(view, day));
         }
     }
 
@@ -90,7 +90,7 @@ public class DayRowClickListener implements AdapterView.OnItemClickListener {
         TextView dayDescription = (TextView) view.findViewById(R.id.dayDescription);
 
         if (isCurrentMonthDay(day) && isActiveDay(day)) {
-            SelectedDay selectedDay = new SelectedDay(dayLabel, dayDescription, day);
+            SelectedDay selectedDay = new SelectedDay(view, day);
 
             if (!mCalendarPageAdapter.getSelectedDays().contains(selectedDay)) {
                 DayColorsUtils.setSelectedDayColors(linearLayout, dayLabel, dayDescription, mCalendarProperties);
@@ -144,18 +144,18 @@ public class DayRowClickListener implements AdapterView.OnItemClickListener {
 
         DayColorsUtils.setSelectedDayColors(linearLayout, dayLabel, dayDescription,  mCalendarProperties);
 
-        mCalendarPageAdapter.addSelectedDay(new SelectedDay(dayLabel, dayDescription, day));
+        mCalendarPageAdapter.addSelectedDay(new SelectedDay(linearLayout, day));
         mCalendarPageAdapter.notifyDataSetChanged();
     }
 
     private void selectDay(LinearLayout linearLayout, TextView dayLabel, TextView dayDescription, Calendar day) {
         DayColorsUtils.setSelectedDayColors(linearLayout, dayLabel, dayDescription, mCalendarProperties);
-        mCalendarPageAdapter.setSelectedDay(new SelectedDay(dayLabel, dayDescription, day));
+        mCalendarPageAdapter.setSelectedDay(new SelectedDay(linearLayout, day));
     }
 
     private void reverseUnselectedColor(SelectedDay selectedDay) {
-        DayColorsUtils.setCurrentMonthDayColors(selectedDay.getCalendar(),
-                DateUtils.getCalendar(), (TextView) selectedDay.getLabelView(), (TextView) selectedDay.getDescriptionView(), mCalendarProperties);
+        DayColorsUtils.setupDay(selectedDay.getView(), selectedDay.getCalendar(),
+                DateUtils.getCalendar(), mCalendarProperties, mPageMonth, false);
     }
 
     private boolean isCurrentMonthDay(Calendar day) {
