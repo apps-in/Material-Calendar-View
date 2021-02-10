@@ -2,6 +2,7 @@ package com.applandeo.materialcalendarview.utils;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -44,27 +45,17 @@ public class DayColorsUtils {
      * @param dayLabel           TextView containing a day number
      * @param calendarProperties A resource of a selection background color
      */
-    public static void setSelectedDayColors(TextView dayLabel, TextView dayDescription, CalendarProperties calendarProperties) {
+    public static void setSelectedDayColors(View view, TextView dayLabel, TextView dayDescription, CalendarProperties calendarProperties) {
         dayLabel.setTextColor(calendarProperties.getSelectionLabelColor());
         dayDescription.setTextColor(calendarProperties.getSelectionLabelColor());
-
-        setDayBackgroundColor(dayLabel, calendarProperties.getSelectionColor());
+        view.setBackgroundColor(calendarProperties.getSelectionColor());
     }
 
-    /**
-     * This method is used to set a color of texts, font types and backgrounds of TextView objects
-     * in a current visible month. Visible day labels from previous and forward months are set using
-     * setDayColors() method. It also checks if a day number is a day number of today and set it
-     * a different color and bold face type.
-     *
-     * @param day                A calendar instance representing day date
-     * @param today              A calendar instance representing today date
-     * @param dayLabel           TextView containing a day numberx
-     * @param calendarProperties A resource of a color used to mark today day
-     */
-    public static void setCurrentMonthDayColors(Calendar day, Calendar today, TextView dayLabel, TextView dayDescription,
+    public static void setCurrentMonthDayColors(Calendar day, Calendar today, View view,
                                                 CalendarProperties calendarProperties) {
-        setDayBackgroundColor(dayLabel, Color.TRANSPARENT);
+        view.setBackgroundColor(calendarProperties.getSelectionColor());
+        TextView dayLabel = view.findViewById(R.id.dayLabel);
+        TextView dayDescription = view.findViewById(R.id.dayDescription);
         ((ViewGroup) dayLabel.getParent()).findViewById(R.id.cornerView).setBackgroundColor(Color.TRANSPARENT);
         if (EventDayUtils.isEventDayWithLabelColor(day, calendarProperties)) {
             setEventDayColors(day, dayLabel, dayDescription, calendarProperties);
@@ -110,7 +101,4 @@ public class DayColorsUtils {
                 R.drawable.background_transparent);
     }
 
-    private static void setDayBackgroundColor(TextView dayLabel, int color) {
-        ((ViewGroup) dayLabel.getParent().getParent().getParent()).setBackgroundColor(color);
-    }
 }

@@ -12,41 +12,27 @@ import java.util.Calendar;
  */
 
 public class SelectedDay {
-    private View mLabelView;
-    private View mDescriptionView;
+    private View mView;
     private Calendar mCalendar;
 
     public SelectedDay(Calendar calendar) {
         mCalendar = calendar;
     }
 
-    /**
-     * @param labelView     View representing selected calendar cell
-     * @param calendar Calendar instance representing selected cell date
-     */
-    public SelectedDay(View labelView, View descriptionView, Calendar calendar) {
-        mLabelView = labelView;
-        mDescriptionView = descriptionView;
+    public SelectedDay(View view, Calendar calendar) {
+        mView = view;
         mCalendar = calendar;
     }
 
     /**
      * @return View representing selected calendar cell
      */
-    public View getLabelView() {
-        return mLabelView;
+    public View getView() {
+        return mView;
     }
 
-    public void setLabelView(View view) {
-        mLabelView = view;
-    }
-
-    public View getDescriptionView() {
-        return mDescriptionView;
-    }
-
-    public void setDescriptionView(View descriptionView) {
-        this.mDescriptionView = descriptionView;
+    public void setView(View view) {
+        mView = view;
     }
 
     /**
