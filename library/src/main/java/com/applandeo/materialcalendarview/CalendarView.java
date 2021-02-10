@@ -277,10 +277,6 @@ public class CalendarView extends LinearLayout {
     private void setUpCalendarPosition(Calendar calendar) {
         DateUtils.setMidnight(calendar);
 
-        if (mCalendarProperties.getCalendarType() == CalendarView.ONE_DAY_PICKER) {
-            mCalendarProperties.setSelectedDay(calendar);
-        }
-
         mCalendarProperties.getFirstPageCalendarDate().setTime(calendar.getTime());
         mCalendarProperties.getFirstPageCalendarDate().add(Calendar.MONTH, -FIRST_VISIBLE_PAGE);
 
@@ -420,11 +416,6 @@ public class CalendarView extends LinearLayout {
         return Stream.of(mCalendarPageAdapter.getSelectedDays())
                 .map(SelectedDay::getCalendar)
                 .sortBy(calendar -> calendar).toList();
-    }
-
-    public void setSelectedDates(List<Calendar> selectedDates) {
-        mCalendarProperties.setSelectedDays(selectedDates);
-        mCalendarPageAdapter.notifyDataSetChanged();
     }
 
     /**

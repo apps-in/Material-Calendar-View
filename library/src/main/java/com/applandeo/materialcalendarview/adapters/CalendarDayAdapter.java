@@ -66,7 +66,7 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
 
     private boolean isSelectedDay(Calendar day) {
         return mCalendarProperties.getCalendarType() != CalendarView.CLASSIC && day.get(Calendar.MONTH) == mPageMonth
-                && mCalendarPageAdapter.getSelectedDays().contains(new SelectedDay(day));
+                && mCalendarPageAdapter.getSelectedDays().contains(new SelectedDay(null, day));
     }
 
 }

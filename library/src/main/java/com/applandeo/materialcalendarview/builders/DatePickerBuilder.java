@@ -578,29 +578,6 @@ public class DatePickerBuilder {
     }
 
     /**
-     * Sets the list of selected days in the calendar
-     *
-     * @param selectedDays The list of selected days as a {@link List<Calendar>}
-     * @return The builder object to allow for chaining of methods
-     * @deprecated Use {@link DatePickerBuilder#setSelectedDays(List)}
-     */
-    @Deprecated
-    public DatePickerBuilder selectedDays(List<Calendar> selectedDays) {
-        return setSelectedDays(selectedDays);
-    }
-
-    /**
-     * Sets the list of selected days in the calendar
-     *
-     * @param selectedDays The list of selected days as a {@link List<Calendar>}
-     * @return The builder object to allow for chaining of methods
-     */
-    public DatePickerBuilder setSelectedDays(List<Calendar> selectedDays) {
-        mCalendarProperties.setSelectedDays(selectedDays);
-        return this;
-    }
-
-    /**
      * Sets the maximum number of selectable days in range
      *
      * @param maximumDaysRange The number of maximum selectable days in range

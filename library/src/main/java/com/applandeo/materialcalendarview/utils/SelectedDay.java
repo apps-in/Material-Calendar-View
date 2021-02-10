@@ -15,10 +15,6 @@ public class SelectedDay {
     private View mView;
     private Calendar mCalendar;
 
-    public SelectedDay(Calendar calendar) {
-        mCalendar = calendar;
-    }
-
     public SelectedDay(View view, Calendar calendar) {
         mView = view;
         mCalendar = calendar;

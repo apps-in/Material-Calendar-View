@@ -275,30 +275,9 @@ public class CalendarProperties {
         return mSelectedDays;
     }
 
-    public void setSelectedDay(Calendar calendar) {
-        setSelectedDay(new SelectedDay(calendar));
-    }
-
     public void setSelectedDay(SelectedDay selectedDay) {
         mSelectedDays.clear();
         mSelectedDays.add(selectedDay);
-    }
-
-    public void setSelectedDays(List<Calendar> selectedDays) {
-        if (mCalendarType == CalendarView.ONE_DAY_PICKER) {
-            throw new UnsupportedMethodsException(ErrorsMessages.ONE_DAY_PICKER_MULTIPLE_SELECTION);
-        }
-
-        if(mCalendarType == CalendarView.RANGE_PICKER && !DateUtils.isFullDatesRange(selectedDays)){
-            throw new UnsupportedMethodsException(ErrorsMessages.RANGE_PICKER_NOT_RANGE);
-        }
-
-        mSelectedDays = Stream.of(selectedDays)
-                .map(calendar -> {
-                    DateUtils.setMidnight(calendar);
-                    return new SelectedDay(calendar);
-                }).filterNot(value -> mDisabledDays.contains(value.getCalendar()))
-                .toList();
     }
 
     public int getDisabledDaysLabelsColor() {

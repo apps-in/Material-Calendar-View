@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements OnSelectDateListe
                 .setSelectionColor(android.R.color.holo_green_dark)
                 .setTodayLabelColor(android.R.color.holo_green_dark)
                 .setDialogButtonsColor(android.R.color.holo_green_dark)
-                .setSelectedDays(selectedDays)
                 .setNavigationVisibility(View.GONE)
                 .setDisabledDays(getDisabledDays());
 
@@ -130,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements OnSelectDateListe
                 .setDialogButtonsColor(android.R.color.white)
                 .setDaysLabelsColor(android.R.color.white)
                 .setAnotherMonthsDaysLabelsColor(R.color.sampleLighter)
-                .setSelectedDays(selectedDays)
                 .setMaximumDaysRange(10)
                 .setDisabledDays(getDisabledDays());
 
