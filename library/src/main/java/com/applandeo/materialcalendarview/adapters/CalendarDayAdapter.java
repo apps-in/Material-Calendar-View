@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.annimon.stream.Stream;
@@ -55,85 +56,19 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
             view = mLayoutInflater.inflate(mCalendarProperties.getItemLayoutResource(), parent, false);
         }
 
-        TextView dayLabel = (TextView) view.findViewById(R.id.dayLabel);
-        TextView dayDescription = (TextView) view.findViewById(R.id.dayDescription);
+        LinearLayout linearLayout = view.findViewById(R.id.container);
+        TextView dayLabel = view.findViewById(R.id.dayLabel);
+        TextView dayDescription = view.findViewById(R.id.dayDescription);
+        View cornerView = view.findViewById(R.id.cornerView);
 
         Calendar day = new GregorianCalendar();
         day.setTime(getItem(position));
 
-        setLabelColors(dayLabel, dayDescription, day);
-
-        if (dayDescription != null){
-            setDescription(dayDescription, day);
-        }
-
         dayLabel.setText(String.valueOf(day.get(Calendar.DAY_OF_MONTH)));
-        return view;
-    }
 
-    private void setLabelColors(TextView dayLabel, TextView dayDescription, Calendar day) {
-        // Setting not current month day color
-        if (!isCurrentMonthDay(day)) {
-            DayColorsUtils.setDayColors(dayLabel, mCalendarProperties.getAnotherMonthsDaysLabelsColor(),
-                    Typeface.NORMAL, R.drawable.background_transparent);
-            DayColorsUtils.setDayColors(dayDescription, Color.TRANSPARENT,
-                    Typeface.ITALIC, R.drawable.background_transparent);
-            ((ViewGroup) dayLabel.getParent()).findViewById(R.id.cornerView).setBackgroundColor(Color.TRANSPARENT);
-            return;
-        }
-
-        // Setting view for all SelectedDays
-        if (isSelectedDay(day)) {
-            Stream.of(mCalendarPageAdapter.getSelectedDays())
-                    .filter(selectedDay -> selectedDay.getCalendar().equals(day))
-                    .findFirst().ifPresent(selectedDay -> selectedDay.setLabelView(dayLabel));
-
-            DayColorsUtils.setSelectedDayColors(dayLabel, dayDescription, mCalendarProperties);
-            return;
-        }
-
-        // Setting disabled days color
-        if (!isActiveDay(day)) {
-            DayColorsUtils.setDayColors(dayLabel, mCalendarProperties.getDisabledDaysLabelsColor(),
-                    Typeface.NORMAL, R.drawable.background_transparent);
-            DayColorsUtils.setDayColors(dayLabel, Color.TRANSPARENT,
-                    Typeface.ITALIC, R.drawable.background_transparent);
-            return;
-        }
-
-        // Setting custom label color for event day
-        if (isEventDayWithLabelColor(day)) {
-            DayColorsUtils.setCurrentMonthDayColors(day, mToday, dayLabel, dayDescription, mCalendarProperties);
-            return;
-        }
-
-        // Setting current month day color
-        DayColorsUtils.setCurrentMonthDayColors(day, mToday, dayLabel, dayDescription, mCalendarProperties);
-    }
-
-    private boolean isSelectedDay(Calendar day) {
-        return mCalendarProperties.getCalendarType() != CalendarView.CLASSIC && day.get(Calendar.MONTH) == mPageMonth
-                && mCalendarPageAdapter.getSelectedDays().contains(new SelectedDay(day));
-    }
-
-    private boolean isEventDayWithLabelColor(Calendar day) {
-        return EventDayUtils.isEventDayWithLabelColor(day, mCalendarProperties);
-    }
-
-    private boolean isCurrentMonthDay(Calendar day) {
-        return day.get(Calendar.MONTH) == mPageMonth &&
-                !((mCalendarProperties.getMinimumDate() != null && day.before(mCalendarProperties.getMinimumDate()))
-                        || (mCalendarProperties.getMaximumDate() != null && day.after(mCalendarProperties.getMaximumDate())));
-    }
-
-    private boolean isActiveDay(Calendar day) {
-        return !mCalendarProperties.getDisabledDays().contains(day);
-    }
-
-    private void setDescription(TextView dayDescription, Calendar day){
-        if (mCalendarProperties.getEventDays() == null || !mCalendarProperties.getEventsEnabled()) {
-            dayDescription.setVisibility(View.GONE);
-            return;
+        if (mToday.equals(day)){
+            dayLabel.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+            dayLabel.setTextColor(mCalendarProperties.getTodayLabelColor());
         }
 
         Stream.of(mCalendarProperties.getEventDays()).filter(eventDate -> {
@@ -141,15 +76,46 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
             return eventDateCalendar.get(Calendar.YEAR) == day.get(Calendar.YEAR) && eventDateCalendar.get(Calendar.MONTH) == day.get(Calendar.MONTH) && eventDateCalendar.get(Calendar.DAY_OF_MONTH) == day.get(Calendar.DAY_OF_MONTH);
         }).findFirst().executeIfPresent(eventDay -> {
             dayDescription.setText(eventDay.getDescription());
-            dayDescription.setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC), Typeface.ITALIC);
+            cornerView.setVisibility(View.VISIBLE);
+            dayLabel.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+            dayLabel.setTextColor(eventDay.getLabelColor());
+            dayDescription.setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC));
             dayDescription.setTextColor(eventDay.getLabelColor());
-
-            // If a day doesn't belong to current month then image is transparent
-            if (!isCurrentMonthDay(day) || !isActiveDay(day)) {
-                dayDescription.setAlpha(0.12f);
-            }
-
+        }).executeIfAbsent(() -> {
+            dayDescription.setText("");
+            cornerView.setVisibility(View.INVISIBLE);
         });
+
+        if (isSelectedDay(day)) {
+            dayLabel.setTextColor(mCalendarProperties.getSelectionLabelColor());
+            dayDescription.setTextColor(mCalendarProperties.getSelectionLabelColor());
+            linearLayout.setBackgroundColor(mCalendarProperties.getSelectionColor());
+        } else {
+            linearLayout.setBackgroundColor(Color.TRANSPARENT);
+        }
+
+        if (!isCurrentMonthDay(day)) {
+            dayLabel.setTextColor(mCalendarProperties.getAnotherMonthsDaysLabelsColor());
+            dayLabel.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+            dayLabel.setAlpha(0.12f);
+            dayDescription.setAlpha(0.12f);
+            cornerView.setAlpha(0.12f);
+        }
+
+        return view;
+    }
+
+
+
+    private boolean isSelectedDay(Calendar day) {
+        return mCalendarProperties.getCalendarType() != CalendarView.CLASSIC && day.get(Calendar.MONTH) == mPageMonth
+                && mCalendarPageAdapter.getSelectedDays().contains(new SelectedDay(day));
+    }
+
+    private boolean isCurrentMonthDay(Calendar day) {
+        return day.get(Calendar.MONTH) == mPageMonth &&
+                !((mCalendarProperties.getMinimumDate() != null && day.before(mCalendarProperties.getMinimumDate()))
+                        || (mCalendarProperties.getMaximumDate() != null && day.after(mCalendarProperties.getMaximumDate())));
     }
 
 }
