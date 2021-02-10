@@ -136,7 +136,7 @@ public class DayRowClickListener implements AdapterView.OnItemClickListener {
 
         Stream.of(CalendarUtils.getDatesRange(previousSelectedDay.getCalendar(), day))
                 .filter(calendar -> !mCalendarProperties.getDisabledDays().contains(calendar))
-                .forEach(calendar -> mCalendarPageAdapter.addSelectedDay(new SelectedDay(calendar)));
+                .forEach(calendar -> mCalendarPageAdapter.addSelectedDay(new SelectedDay(linearLayout, calendar)));
 
         if (isOutOfMaxRange(previousSelectedDay.getCalendar(), day)) {
             return;
