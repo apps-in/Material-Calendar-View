@@ -79,7 +79,6 @@ public class DayColorsUtils {
         if (!isCurrentMonthDay(day, calendarProperties, pageMonths)) {
             dayLabel.setTextColor(calendarProperties.getAnotherMonthsDaysLabelsColor());
             dayLabel.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
-            dayLabel.setAlpha(0.12f);
             dayDescription.setAlpha(0.12f);
             cornerView.setAlpha(0.12f);
         }
