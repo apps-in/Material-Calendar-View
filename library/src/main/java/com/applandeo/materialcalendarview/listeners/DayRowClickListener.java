@@ -2,6 +2,7 @@ package com.applandeo.materialcalendarview.listeners;
 
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.annimon.stream.Stream;
@@ -73,16 +74,18 @@ public class DayRowClickListener implements AdapterView.OnItemClickListener {
     private void selectOneDay(View view, Calendar day) {
         SelectedDay previousSelectedDay = mCalendarPageAdapter.getSelectedDay();
 
+        LinearLayout linearLayout = view.findViewById(R.id.container);
         TextView dayLabel = (TextView) view.findViewById(R.id.dayLabel);
         TextView dayDescription = (TextView) view.findViewById(R.id.dayDescription);
 
         if (isAnotherDaySelected(previousSelectedDay, day)) {
-            selectDay(dayLabel, dayDescription, day);
+            selectDay(linearLayout, dayLabel, dayDescription, day);
             reverseUnselectedColor(previousSelectedDay);
         }
     }
 
     private void selectManyDays(View view, Calendar day) {
+        LinearLayout linearLayout = view.findViewById(R.id.container);
         TextView dayLabel = (TextView) view.findViewById(R.id.dayLabel);
         TextView dayDescription = (TextView) view.findViewById(R.id.dayDescription);
 
@@ -90,7 +93,7 @@ public class DayRowClickListener implements AdapterView.OnItemClickListener {
             SelectedDay selectedDay = new SelectedDay(dayLabel, dayDescription, day);
 
             if (!mCalendarPageAdapter.getSelectedDays().contains(selectedDay)) {
-                DayColorsUtils.setSelectedDayColors(dayLabel, dayDescription, mCalendarProperties);
+                DayColorsUtils.setSelectedDayColors(linearLayout, dayLabel, dayDescription, mCalendarProperties);
             } else {
                 reverseUnselectedColor(selectedDay);
             }
@@ -100,6 +103,7 @@ public class DayRowClickListener implements AdapterView.OnItemClickListener {
     }
 
     private void selectRange(View view, Calendar day) {
+        LinearLayout linearLayout = view.findViewById(R.id.container);
         TextView dayLabel = (TextView) view.findViewById(R.id.dayLabel);
         TextView dayDescription = (TextView) view.findViewById(R.id.dayDescription);
 
@@ -110,24 +114,24 @@ public class DayRowClickListener implements AdapterView.OnItemClickListener {
         List<SelectedDay> selectedDays = mCalendarPageAdapter.getSelectedDays();
 
         if (selectedDays.size() > 1) {
-            clearAndSelectOne(dayLabel, dayDescription, day);
+            clearAndSelectOne(linearLayout, dayLabel, dayDescription, day);
         }
 
         if (selectedDays.size() == 1) {
-            selectOneAndRange(dayLabel, dayDescription, day);
+            selectOneAndRange(linearLayout, dayLabel, dayDescription, day);
         }
 
         if (selectedDays.isEmpty()) {
-            selectDay(dayLabel, dayDescription, day);
+            selectDay(linearLayout, dayLabel, dayDescription, day);
         }
     }
 
-    private void clearAndSelectOne(TextView dayLabel, TextView dayDescription, Calendar day) {
+    private void clearAndSelectOne(LinearLayout linearLayout, TextView dayLabel, TextView dayDescription, Calendar day) {
         Stream.of(mCalendarPageAdapter.getSelectedDays()).forEach(this::reverseUnselectedColor);
-        selectDay(dayLabel, dayDescription, day);
+        selectDay(linearLayout, dayLabel, dayDescription, day);
     }
 
-    private void selectOneAndRange(TextView dayLabel, TextView dayDescription, Calendar day) {
+    private void selectOneAndRange(LinearLayout linearLayout, TextView dayLabel, TextView dayDescription, Calendar day) {
         SelectedDay previousSelectedDay = mCalendarPageAdapter.getSelectedDay();
 
         Stream.of(CalendarUtils.getDatesRange(previousSelectedDay.getCalendar(), day))
@@ -138,14 +142,14 @@ public class DayRowClickListener implements AdapterView.OnItemClickListener {
             return;
         }
 
-        DayColorsUtils.setSelectedDayColors(dayLabel, dayDescription,  mCalendarProperties);
+        DayColorsUtils.setSelectedDayColors(linearLayout, dayLabel, dayDescription,  mCalendarProperties);
 
         mCalendarPageAdapter.addSelectedDay(new SelectedDay(dayLabel, dayDescription, day));
         mCalendarPageAdapter.notifyDataSetChanged();
     }
 
-    private void selectDay(TextView dayLabel, TextView dayDescription, Calendar day) {
-        DayColorsUtils.setSelectedDayColors(dayLabel, dayDescription, mCalendarProperties);
+    private void selectDay(LinearLayout linearLayout, TextView dayLabel, TextView dayDescription, Calendar day) {
+        DayColorsUtils.setSelectedDayColors(linearLayout, dayLabel, dayDescription, mCalendarProperties);
         mCalendarPageAdapter.setSelectedDay(new SelectedDay(dayLabel, dayDescription, day));
     }
 
