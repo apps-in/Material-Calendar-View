@@ -69,7 +69,7 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
             return eventDateCalendar.get(Calendar.YEAR) == day.get(Calendar.YEAR) && eventDateCalendar.get(Calendar.MONTH) == day.get(Calendar.MONTH) && eventDateCalendar.get(Calendar.DAY_OF_MONTH) == day.get(Calendar.DAY_OF_MONTH);
         }).findFirst().executeIfPresent(eventDay -> {
             dayDescription.setText(eventDay.getDescription());
-            cornerView.setVisibility(isCurrentMonthDay(day) ? View.VISIBLE : View.INVISIBLE);
+            cornerView.setVisibility(View.VISIBLE);
         }).executeIfAbsent(() -> {
             dayDescription.setText("");
             cornerView.setVisibility(View.INVISIBLE);
@@ -86,7 +86,7 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
         if (!isCurrentMonthDay(day)) {
             DayColorsUtils.setDayColors(dayLabel, mCalendarProperties.getAnotherMonthsDaysLabelsColor(),
                     Typeface.NORMAL, R.drawable.background_transparent);
-            DayColorsUtils.setDayColors(dayDescription, Color.TRANSPARENT,
+            DayColorsUtils.setDayColors(dayDescription, mCalendarProperties.getAnotherMonthsDaysLabelsColor(),
                     Typeface.ITALIC, R.drawable.background_transparent);
             return;
         }
