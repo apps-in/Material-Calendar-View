@@ -4,7 +4,7 @@ Material-Calendar-View is a simple and customizable calendar widget for Android 
 
 We described a simple usage of the component [in this article](http://applandeo.com/blog/material-calendar-view-customized-calendar-widget-android/).
 
-![34562830-637ddbae-f150-11e7-8004-9024fb84a883](https://user-images.githubusercontent.com/2614225/46456381-f72da200-c7ae-11e8-8284-1799fe83a1c9.png) ![device-2018-01-04-125741](https://user-images.githubusercontent.com/2614225/34562842-709a71ee-f150-11e7-966b-cbbe6169b88b.png) ![device-2018-01-04-125831](https://user-images.githubusercontent.com/2614225/34562859-7bd3e64e-f150-11e7-98f4-f00bafe846c6.png) ![device-2018-01-04-125915](https://user-images.githubusercontent.com/2614225/34562878-8f382f06-f150-11e7-97e4-5ac9babe5aa8.png) 
+![34562830-637ddbae-f150-11e7-8004-9024fb84a883](https://user-images.githubusercontent.com/2614225/46456381-f72da200-c7ae-11e8-8284-1799fe83a1c9.png) ![device-2018-01-04-125741](https://user-images.githubusercontent.com/2614225/34562842-709a71ee-f150-11e7-966b-cbbe6169b88b.png) ![device-2018-01-04-125831](https://user-images.githubusercontent.com/2614225/34562859-7bd3e64e-f150-11e7-98f4-f00bafe846c6.png) ![device-2018-01-04-125915](https://user-images.githubusercontent.com/2614225/34562878-8f382f06-f150-11e7-97e4-5ac9babe5aa8.png)
 
 
 
@@ -16,7 +16,6 @@ We described a simple usage of the component [in this article](http://applandeo.
 * Range picker
 * Events icons
 * Fully colors customization
-* Customized font
 
 
 ## How to use?
@@ -44,13 +43,7 @@ allprojects {
 Add the dependency to module's **build.gradle** file:
 ```
 dependencies {
-    implementation 'com.applandeo:material-calendar-view:1.7.0'
-}
-```
-or if you want to use very early version with CalendarDay support:
-```
-dependencies {
-    implementation 'com.applandeo:material-calendar-view:1.9.0-rc03'
+    compile 'com.applandeo:material-calendar-view:1.7.0'
 }
 ```
 
@@ -96,16 +89,6 @@ calendarView.setOnDayClickListener(new OnDayClickListener() {
 });
 ```
 
-...or long click:
-```java
-calendarView.setOnDayLongClickListener(new OnDayLongClickListener() {
-    @Override
-    public void onDayLongClick(EventDay eventDay) {
-        Calendar clickedDayCalendar = eventDay.getCalendar();
-    }
-});
-```
-
 ### Getting a selected days in the picker mode:
 If you want to get all selected days, especially if you use multi date or range picker you should use the following code:
 ```java
@@ -120,7 +103,7 @@ Calendar selectedDate = calendarView.getFirstSelectedDate();
 ```java
 Calendar calendar = Calendar.getInstance();
 calendar.set(2019, 7, 5);
-
+        
 calendarView.setDate(calendar);
 ```
 
@@ -149,12 +132,6 @@ calendarView.setHighlightedDays(calendars);
 ```java
 List<Calendar> calendars = new ArrayList<>();
 calendarView.setSelectedDates(calendars);
-```
-
-...or if you want to remove selected dates:
-
-```java
-calendarView.clearSelectedDays();
 ```
 
 #### Caution!
@@ -212,59 +189,8 @@ calendarView.setHeaderLabelColor([color]);
 calendarView.setForwardButtonImage([drawable]);
 calendarView.setPreviousButtonImage([drawable]);
 ```
-
-#### Custom view for days cells:
-To use custom view for calendar cells create XML file (like in example below) and set it using `setCalendarDayLayout(@LayoutRes layout: Int)` method. XML file must contain TextView with id `dayLabel` and can contain ImageView with id `dayIcon`. Do not set colors or textStyle here, it will be overwritten.
-```xml
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackgroundBorderless"
-    android:orientation="vertical">
-
-    <!--REQUIRED-->
-    <TextView
-        android:id="@+id/dayLabel"
-        ... />
-
-    <!--CAN BE SKIPPED-->
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/dayIcon"
-        ... />
-
-</LinearLayout>
-```
-
-#### Customization of specific cells:
-If you want to customize specyfic cells create list of `CalendarDay` objects and pass it by `setCalendarDays()` method like in example below:
-```kotlin
-val list = listOf(
-    CalendarDay(Calendar.getInstance()).apply { 
-        labelColor = [color resource]
-        backgroundResource = [drawable resource]
-        backgroundDrawable = [drawable]
-        selectedLabelColor = [color resource]
-        selectedBackgroundResource = [drawable resource]
-        selectedBackgroundDrawable = [drawable]
-    }
-)
-
-calendarView.setCalendarDays(list)
-```
-
-*In the future `CalendarDay` will replace `EventDay`.*
-
-#### Customized font:
-* To create font directory Right-click the res folder and go to New > Android resource directory. — The New Resource Directory window appears.
-* In the Resource type list, select font, and then click OK.
-* Note: The name of the resource directory must be font.
-* Add your ttf or otf fonts in font folder. As an example we ad sample_font.ttf and sample_font_bold.ttf
-* On a DatePickerBuilder apply ```.typefaceSrc(R.font.sample_font)``` for setting sample_font to callendar and its abbreviations.
-* Optionally apply ```.todayTypefaceSrc(R.font.sample_font_bold)``` to differentiate today date font form the rest of dates in calendar view
-
 #### Disable month swipe:
-If you want to disable the swipe gesture to change the month, you have to use the following tag:
+If you want to disable the swipe gesture to change the month, you have to use the following tag: 
 * ```app:swipeEnabled="false"```
 
 ...or in code:
@@ -272,17 +198,6 @@ If you want to disable the swipe gesture to change the month, you have to use th
 ```java
 calendarView.setSwipeEnabled(false);
 ```
-
-#### First day of a week:
-If you want to change default first day of week:
-* ```app:firstDayOfWeek="[day]"```
-
-...or in code:
-
-```java
-calendarView.setFirstDayOfWeek([CalendarWeekDay]);
-```
-By default the first day is monday or sunday depending on user location.
 
 #### Translations:
 To translate months names, abbreviations of days, "TODAY", "OK" and "CANCEL" buttons, just add below tags to your `strings.xml` file:
@@ -339,45 +254,38 @@ private OnSelectDateListener listener = new OnSelectDateListener() {
 #### Customization:
 ```java
 new DatePickerBuilder(this, listener)
-        .date(Calendar.getInstance()) // Initial date as Calendar object
-        .minimumDate(Calendar.getInstance()) // Minimum available date
-        .maximumDate(Calendar.getInstance()) // Maximum available date
-        .disabledDays(List<Calendar>) /// List of disabled days
-        .headerColor(R.color.color) // Color of the dialog header
-        .headerLabelColor(R.color.color) // Color of the header label
-        .previousButtonSrc(R.drawable.drawable) // Custom drawable of the previous arrow
-        .forwardButtonSrc(R.drawable.drawable) // Custom drawable of the forward arrow
-        .previousPageChangeListener(new OnCalendarPageChangeListener(){}) // Listener called when scroll to the previous page
-        .forwardPageChangeListener(new OnCalendarPageChangeListener(){}) // Listener called when scroll to the next page
-        .abbreviationsBarColor(R.color.color) // Color of bar with day symbols
-        .abbreviationsLabelsColor(R.color.color) // Color of symbol labels
-        .abbreviationsBarVisibility(int) // Visibility of abbreviations bar
-        .pagesColor(R.color.sampleLighter) // Color of the calendar background
-        .selectionColor(R.color.color) // Color of the selection circle
-        .selectionLabelColor(R.color.color) // Color of the label in the circle
-        .daysLabelsColor(R.color.color) // Color of days numbers
-        .aotherMonthsDaysLabelsColor(R.color.color) // Color of visible days numbers from previous and next month page
-        .disabledDaysLabelsColor(R.color.color) // Color of disabled days numbers
-        .highlightedDaysLabelsColor(R.color.color) // Color of highlighted days numbers
-        .todayColor(R.color.color) // Color of the present day background
-        .todayLabelColor(R.color.color) // Color of the today number
-        .dialogButtonsColor(R.color.color); // Color of "Cancel" and "OK" buttons
-        .maximumDaysRange(int) // Maximum number of selectable days in range mode
-        .navigationVisibility(int) // Navigation buttons visibility
-        .typefaceSrc(R.font.sample_font) // Calendar font
-        .todayTypefaceSrc(R.font.sample_font_bold) // (Optional) calendar today date font
-        .firstDayOfWeek(CalendarWeekDay) // Default is monday or sunday depending on user location
+        .setDate(Calendar.getInstance()) // Initial date as Calendar object
+        .setMinimumDate(Calendar.getInstance()) // Minimum available date
+        .setMaximumDate(Calendar.getInstance()) // Maximum available date
+        .setDisabledDays(List<Calendar>) /// List of disabled days
+        .setHeaderColor(R.color.color) // Color of the dialog header
+        .setHeaderLabelColor(R.color.color) // Color of the header label
+        .setPreviousButtonSrc(R.drawable.drawable) // Custom drawable of the previous arrow
+        .setForwardButtonSrc(R.drawable.drawable) // Custom drawable of the forward arrow
+        .setPreviousPageChangeListener(new OnCalendarPageChangeListener(){}) // Listener called when scroll to the previous page
+        .setForwardPageChangeListener(new OnCalendarPageChangeListener(){}) // Listener called when scroll to the next page
+        .setAbbreviationsBarColor(R.color.color) // Color of bar with day symbols
+        .setAbbreviationsLabelsColor(R.color.color) // Color of symbol labels
+        .setAbbreviationsBarVisibility(int) // Visibility of abbreviations bar
+        .setPagesColor(R.color.sampleLighter) // Color of the calendar background
+        .setSelectionColor(R.color.color) // Color of the selection circle
+        .setSelectionLabelColor(R.color.color) // Color of the label in the circle
+        .setDaysLabelsColor(R.color.color) // Color of days numbers
+        .setAnotherMonthsDaysLabelsColor(R.color.color) // Color of visible days numbers from previous and next month page
+        .setDisabledDaysLabelsColor(R.color.color) // Color of disabled days numbers
+        .setHighlightedDaysLabelsColor(R.color.color) // Color of highlighted days numbers
+        .setTodayColor(R.color.color) // Color of the present day background
+        .setTodayLabelColor(R.color.color) // Color of the today number
+        .setDialogButtonsColor(R.color.color); // Color of "Cancel" and "OK" buttons
+        .setMaximumDaysRange(int) // Maximum number of selectable days in range mode
+        .setNavigationVisibility(int) // Navigation buttons visibility
+        .setSelectionDisabled(boolean) // Disable day selection
 ```
 
 ## Changelog
 
-#### Version 1.9.0-rc*:
-* Added customized font support
-* Added ability to set custom view for cells
-* Added ability to set first day of a week
-
-#### Version 1.8.0-rc*
-* Migrated to kotlin
+#### Version 1.7.1:
+* Added ability to disable day selection
 
 #### Version 1.7.0:
 * Added ability to set maximum selectable days range
@@ -437,7 +345,7 @@ new DatePickerBuilder(this, listener)
 It would be great if you decide to use our component in your project. It’s open source, feel free. Write to us at hi@applandeo.com if you want to be listed and we will include your app in our repo. If you have any questions or suggestions just let us know.
 
 #### Apps using Material-Calendar-View:
-* [FreeQuest](https://play.google.com/store/apps/details?id=com.applandeo.freequest)
+* [FreQuest](https://play.google.com/store/apps/details?id=com.applandeo.frequest)
 
 ## License
 ```

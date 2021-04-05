@@ -1,14 +1,18 @@
 package com.applandeo.materialcalendarsampleapp;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.applandeo.materialcalendarview.CalendarView;
+import com.applandeo.materialcalendarview.EventDay;
 
 import java.util.Calendar;
+import java.util.Collections;
 
 /**
  * Created by Mateusz Kornakiewicz on 26.05.2017.
@@ -32,6 +36,8 @@ public class OneDayPickerActivity extends AppCompatActivity {
         calendarView.setMinimumDate(min);
         calendarView.setMaximumDate(max);
 
+        calendarView.setEvents(Collections.singletonList(new EventDay(Calendar.getInstance(), "15", Color.RED)));
+        
         calendarView.setOnDayClickListener(eventDay ->
                 Toast.makeText(getApplicationContext(),
                         eventDay.getCalendar().getTime().toString() + " "

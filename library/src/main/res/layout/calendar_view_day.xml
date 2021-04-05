@@ -1,46 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/day_item_background"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/dayLabel"
-        android:layout_width="@dimen/day_label_size_events_enabled"
-        android:layout_height="@dimen/day_label_size_events_enabled"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="4dp"
-        android:gravity="center"
-        android:textSize="14sp" />
-
-    <FrameLayout
-        android:layout_width="30dp"
-        android:layout_height="20dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp">
-
-        <ImageView
-            android:id="@+id/dayIcon"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerInside" />
-
-        <TextView
-            android:id="@+id/dayDescription"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textSize="12sp" />
-
-    </FrameLayout>
+    android:orientation="horizontal">
 
     <View
-        android:id="@+id/divider"
+        android:layout_width="0.25dp"
+        android:layout_height="match_parent"
+        android:background="#1F000000" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/nextMonthDayColor" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:background="#1F000000" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/dayLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="4dp"
+                android:textSize="16sp"
+                tools:text="26" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+
+            <View
+                android:id="@+id/cornerView"
+                android:layout_width="32dp"
+                android:layout_height="16dp"
+                android:background="@drawable/background_event" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="4dp">
+
+            <TextView
+                android:id="@+id/dayDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textSize="12sp"
+                tools:text="15" />
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:background="#1F000000" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="0.25dp"
+        android:layout_height="match_parent"
+        android:background="#1F000000" />
 
 </LinearLayout>
-
